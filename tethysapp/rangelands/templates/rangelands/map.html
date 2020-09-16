@@ -24,12 +24,7 @@
 {% endblock %}
 
 {% block app_content %}
-    <!--h1>GeoServer Layers</h1-->
-    <!--form method="post">
-        {% csrf_token %}
-        {% gizmo select_input select_options %}
-        <input name="submit" type="submit" value="Update" class="btn btn-default">
-    </form-->
+    {% csrf_token %}
     {% gizmo map_options %}
 {% endblock %}
 

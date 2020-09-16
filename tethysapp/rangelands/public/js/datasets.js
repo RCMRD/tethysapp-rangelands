@@ -119,12 +119,12 @@ var DATASETS = (function(){
         // OL Map Object
         map = TETHYS_MAP_VIEW.getMap();
 
-        new_layer = new ImageLayer({
-            source: new ImageWMS({
+        new_layer = new ol.layer.Image({
+            source: new ol.source.ImageWMS({
                 url: 'http://apps.rcmrd.org:8080/geoserver/wms',
                 params: {'LAYERS': 'rangelands:Kenya_Range_Counties'},
                 serverType: 'geoserver',
-                crossOrigin: 'anonymous'
+                crossOrigin: 'null'
             })
         });
 

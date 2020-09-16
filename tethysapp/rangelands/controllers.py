@@ -9,14 +9,15 @@ from .app import Rangelands as app
 from .modis.datasets import *
 
 WORKSPACE = 'rangelands'
-GEOSERVER_URI = 'http://www.rcmrd.org/geoserver-app'
+GEOSERVER_URI = 'http://www.rcmrd.org/rangelands'
 
-@login_required()
+#@login_required()
 def home(request):
     """
     Controller for the home page
     :param request:
     :return:
+    """
     """
     geoserver_engine = app.get_spatial_dataset_service(name='main_geoserver', as_engine=True)
 
@@ -27,6 +28,8 @@ def home(request):
     if response['success']:
         for layer in response['result']:
             options.append((layer.title(), layer))
+    
+
 
     select_options = SelectInput(
         display_text='Choose Layer',
@@ -34,6 +37,7 @@ def home(request):
         multiple=False,
         options=options
     )
+    """
 
     # dataset select
     indicator_select = SelectInput(
@@ -178,7 +182,7 @@ def home(request):
 
     context = {
         'map_options': map_options,
-        'select_options': select_options,
+        #'select_options': select_options,
         'indicator_select': indicator_select,
         'product_select': product_select,
         'year_select': year_select,
