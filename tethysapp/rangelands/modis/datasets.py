@@ -14,13 +14,13 @@ for i in range(1,13):
 
 dekads = [{
     'label': 'Dekad 1 (1st - 10th)',
-    'value': 'decad1'
+    'value': '01'
 },{
     'label': 'Dekad 2 (11th - 20th)',
-    'value': 'decad2'
+    'value': '11'
 },{
     'label': 'Dekad 3 (21st - 30th)',
-    'value': 'decad3'
+    'value': '21'
 }]
 
 seasons = [{
@@ -36,7 +36,7 @@ DATASETS = {
     'ndvi':{
         'display': 'Normalized Difference Vegetation Index',
         'products': {
-            'nrt':{
+            'dekadal':{
                         'display': 'Near Real Time (10-days)',
                         'description': '',
                         'options': {

@@ -1,5 +1,6 @@
 import random
 import string
+import fnmatch
 
 from django.shortcuts import render
 from tethys_sdk.permissions import login_required
@@ -18,19 +19,20 @@ def home(request):
     :param request:
     :return:
     """
-    """
+
+    # latest dekadal wms
     geoserver_engine = app.get_spatial_dataset_service(name='main_geoserver', as_engine=True)
-
-    options = []
-
+    dekadal_lyrs = []
     response = geoserver_engine.list_layers(with_properties=False)
 
     if response['success']:
         for layer in response['result']:
-            options.append((layer.title(), layer))
+            layer_title = layer.title()
+            if fnmatch.fnmatch(layer_title, '*Modis.Dekadal.2020*'):
+                dekadal_lyrs.append(layer_title.lower())
     
 
-
+    """
     select_options = SelectInput(
         display_text='Choose Layer',
         name='layer',
@@ -55,7 +57,7 @@ def home(request):
         name='product',
         display_text='Product',
         options=(
-            ('Near Real Time(10 days)', 'nrt'),
+            ('Near Real Time(10 days)', 'dekadal'),
             ('Monthly', 'monthly'),
             ('Seasonal', 'seasonal')
 
@@ -85,7 +87,12 @@ def home(request):
 
     month_options = []
     for m in months:
-        month_options.append((m, m.lower()))
+        i = str(months.index(m) + 1)
+        if len(i) > 1:
+            v = i
+        else:
+            v = '0' + i
+        month_options.append((m, v))
 
     # year select
     month_select = SelectInput(
@@ -175,7 +182,7 @@ def home(request):
                 'extent': [29.25, -4.75, 46.25, 5.2]  #: Kenya
             }}
         ],
-        layers=map_layers,
+        #layers=map_layers,
         #legend=True,
         view=view_options
     )
@@ -191,6 +198,7 @@ def home(request):
         'dekad_select': dekad_select,
         'load_button': load_button,
         'compose_button': compose_button,
+        'latest_dekadal': max(dekadal_lyrs),
         'rdst_datasets': DATASETS
     }
 

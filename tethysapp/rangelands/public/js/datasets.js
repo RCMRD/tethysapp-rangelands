@@ -6,7 +6,7 @@ var DATASETS = (function(){
     MODULE LEVEL / GLOBAL VARIABLES
     */
 
-    var RDST_DATASETS;
+    var RDST_DATASETS, latest_dekadal;
 
     var public_interface;
 
@@ -19,13 +19,13 @@ var DATASETS = (function(){
         m_dekad;
 
     // Map variables
-    var map, new_layer;
+    var map, wms_layer, selected_layer_name, current_layer_name ;
 
     /*
     PRIVATE FUNCTION DECLARATIONS
     */
     // Dataset Select Methods
-    var bind_controls, update_product_options, update_temporal_options, collect_data;
+    var bind_controls, load_dekadal_map, update_product_options, update_temporal_options, collect_data;
 
     /*
     PRIVATE FUNCTION IMPLEMENTATIONS
@@ -49,6 +49,50 @@ var DATASETS = (function(){
             }
         });
 
+        $('#year').on('change', function(){
+            let year = $('#year').val();
+            if(year !== m_year){
+                m_year = year;
+            }
+        });
+
+        $('#month').on('change', function(){
+            let month = $('#month').val();
+            if(month !== m_month){
+                m_month = month;
+            }
+        });
+
+        $('#dekad').on('change', function(){
+            let dekad = $('#dekad').val();
+            if(dekad !== m_dekad){
+                m_dekad = dekad;
+                load_dekadal_map();
+            }
+        });
+
+
+    };
+
+    load_dekadal_map = function(){
+
+        // clear current map overlay
+        map.removeLayer(wms_layer);
+        // generate layer name
+        selected_layer_name = 'rangelands:modis.' + m_product + '.' + m_year + m_month + m_dekad + '.tif';
+        //console.log(selected_layer_name);
+
+        // add layer
+        wms_layer = new ol.layer.Image({
+            source: new ol.source.ImageWMS({
+                url: 'http://apps.rcmrd.org:8080/geoserver/wms',
+                params: {'LAYERS': selected_layer_name},
+                serverType: 'geoserver',
+                crossOrigin: 'null'
+            })
+        });
+
+        map.addLayer(wms_layer);
 
     };
 
@@ -104,6 +148,9 @@ var DATASETS = (function(){
 
         // Initialize Constants
         RDST_DATASETS = $('#rdst-datasets').data('rdst-datasets');
+        latest_dekadal = $('#latest-dekadal').data('latest-dekadal');
+
+        current_layer_name = latest_dekadal;
 
         // Initialize members
         m_indicator = $('#indicator').val();
@@ -119,16 +166,17 @@ var DATASETS = (function(){
         // OL Map Object
         map = TETHYS_MAP_VIEW.getMap();
 
-        new_layer = new ol.layer.Image({
+        wms_layer = new ol.layer.Image({
             source: new ol.source.ImageWMS({
                 url: 'http://apps.rcmrd.org:8080/geoserver/wms',
-                params: {'LAYERS': 'rangelands:Kenya_Range_Counties'},
+                params: {'LAYERS': latest_dekadal},
                 serverType: 'geoserver',
                 crossOrigin: 'null'
             })
         });
 
-        map.addLayer(new_layer);
+        map.addLayer(wms_layer);
+
 
 
 
