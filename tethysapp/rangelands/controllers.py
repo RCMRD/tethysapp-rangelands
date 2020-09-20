@@ -32,15 +32,6 @@ def home(request):
                 dekadal_lyrs.append(layer_title.lower())
     
 
-    """
-    select_options = SelectInput(
-        display_text='Choose Layer',
-        name='layer',
-        multiple=False,
-        options=options
-    )
-    """
-
     # dataset select
     indicator_select = SelectInput(
         name='indicator',
@@ -130,27 +121,7 @@ def home(request):
 
 
     map_layers = []
-    """
-    if request.POST and 'layer' in request.POST:
-        selected_layer = request.POST['layer']
-        legend_title = selected_layer.title()
 
-        geoserver_layer = MVLayer(
-            source='ImageWMS',
-            options={
-                'url': 'http://apps.rcmrd.org:8080/geoserver/wms',
-                'params': {'LAYERS': selected_layer},
-                'serverType': 'geoserver'
-            },
-            legend_title=legend_title,
-            legend_extent=[-114, 36.5, -109, 42.5],
-            legend_classes=[
-                MVLegendClass('polygon', 'County', fill='#999999'),
-            ]
-        )
-
-        map_layers.append(geoserver_layer)
-    """
     latest_layer = 'rangelands:modis.dekadal.20200721.tif'
     legend_title = 'modis.dekadal.20200721.tif'
     geoserver_layer = MVLayer(

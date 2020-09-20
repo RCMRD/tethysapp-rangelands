@@ -25,7 +25,14 @@ var DATASETS = (function(){
     PRIVATE FUNCTION DECLARATIONS
     */
     // Dataset Select Methods
-    var bind_controls, load_dekadal_map, update_product_options, update_temporal_options, collect_data;
+    var bind_controls,
+        load_dekadal_map,
+        load_monthly_map,
+        load_seasonal_map,
+        add_wms_layer,
+        update_product_options,
+        update_temporal_options,
+        collect_data;
 
     /*
     PRIVATE FUNCTION IMPLEMENTATIONS
@@ -36,6 +43,7 @@ var DATASETS = (function(){
             let indicator = $('#indicator').val();
             if(indicator !== m_indicator){
                 m_indicator = indicator;
+                //console.log(m_indicator);
                 update_product_options();
             }
 
@@ -60,7 +68,25 @@ var DATASETS = (function(){
             let month = $('#month').val();
             if(month !== m_month){
                 m_month = month;
+
+                if(m_product.includes("monthly")){
+                    load_monthly_map();
+                }
+
             }
+        });
+
+        $('#season').on('change', function(){
+            let season = $('#season').val();
+            if(season !== m_season){
+                m_season = season;
+
+                if(m_product.includes("seasonal")){
+                    load_seasonal_map();
+                }
+
+            }
+
         });
 
         $('#dekad').on('change', function(){
@@ -83,6 +109,61 @@ var DATASETS = (function(){
         //console.log(selected_layer_name);
 
         // add layer
+        add_wms_layer();
+
+    };
+
+
+    load_monthly_map = function(){
+
+        // clear current map overlay
+        map.removeLayer(wms_layer);
+        // generate layer name
+        if(m_indicator == 'ndvi'){
+            selected_layer_name = 'rangelands:modis.' + m_product + '.' + m_year + m_month + '.tif';
+        } else if (m_indicator == 'ndvi_anomaly'){
+            if(m_product == 'std_monthly'){
+                selected_layer_name = 'rangelands:modis.monthly.SA.' + m_year + m_month + '.tif';
+            } else {
+                selected_layer_name = 'rangelands:modis.monthly.AA.' + m_year + m_month + '.tif';
+            }
+
+        } else {
+            selected_layer_name = 'rangelands:modis.monthly.VCI.' + m_year + m_month + '.tif';
+        }
+
+        //console.log(selected_layer_name);
+        // add layer
+        add_wms_layer();
+
+    }
+
+
+    load_seasonal_map = function(){
+
+        // clear current map overlay
+        map.removeLayer(wms_layer);
+        // generate layer name
+        if(m_indicator == 'ndvi'){
+            selected_layer_name = 'rangelands:modis.' + m_product + '.' + m_year + m_season + '.tif';
+        } else if (m_indicator == 'ndvi_anomaly'){
+            if(m_product == 'std_seasonal'){
+                selected_layer_name = 'rangelands:modis.seasonal.SA.' + m_year + m_season + '.tif';
+            } else {
+                selected_layer_name = 'rangelands:modis.seasonal.AA.' + m_year + m_season + '.tif';
+            }
+
+        } else {
+            selected_layer_name = 'rangelands:modis.seasonal.VCI.' + m_year + m_season + '.tif';
+        }
+
+        //console.log(selected_layer_name);
+        // add layer
+        add_wms_layer();
+
+    }
+
+    add_wms_layer = function(){
         wms_layer = new ol.layer.Image({
             source: new ol.source.ImageWMS({
                 url: 'http://apps.rcmrd.org:8080/geoserver/wms',
@@ -93,8 +174,8 @@ var DATASETS = (function(){
         });
 
         map.addLayer(wms_layer);
+    }
 
-    };
 
     update_product_options = function(){
         // Clear product options
@@ -104,6 +185,7 @@ var DATASETS = (function(){
         let first_option = true;
         for(var product in RDST_DATASETS[m_indicator]['products']){
             let product_display_name = RDST_DATASETS[m_indicator]['products'][product]['display'];
+            //let product_value = RDST_DATASETS[m_indicator]['products'][product]['value'];
             let new_option = new Option(product_display_name, product, first_option, first_option);
             $('#product').append(new_option);
             first_option = false;

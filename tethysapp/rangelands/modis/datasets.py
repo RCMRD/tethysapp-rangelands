@@ -25,10 +25,10 @@ dekads = [{
 
 seasons = [{
     'label': 'Mar-Apr-May',
-    'value': 'season1'
+    'value': '01'
 },{
     'label': 'Oct-Nov-Dec',
-    'value': 'season2'
+    'value': '02'
 }
 ]
 
@@ -38,49 +38,15 @@ DATASETS = {
         'products': {
             'dekadal':{
                         'display': 'Near Real Time (10-days)',
-                        'description': '',
-                        'options': {
-                            'year': {
-                                'display': 'Year',
-                                'list': years
-                            },
-                            'month':{
-                                'display': 'Month',
-                                'list': months
-                            },
-                            'decad':{
-                                'display': 'Decad',
-                                'list': dekads
-                            }
-                        }
+                        'description': ''
                     },
                     'monthly': {
                         'display': 'Monthly',
-                        'description': '',
-                        'options': {
-                            'year': {
-                                'display': 'Year',
-                                'list': years
-                            },
-                            'month': {
-                                'display': 'Month',
-                                'list': months
-                            }
-                        }
+                        'description': ''
                     },
                     'seasonal': {
                         'display': 'Seasonal',
-                        'description': '',
-                        'options': {
-                            'year': {
-                                'display': 'Year',
-                                'list': years
-                            },
-                            'season': {
-                                'display': 'Season',
-                                'list': seasons
-                            }
-                        }
+                        'description': ''
                     }
         }
 
@@ -90,62 +56,26 @@ DATASETS = {
         'products':{
             'std_monthly':{
                         'display': 'STD Monthly',
-                        'description': '',
-                        'options': {
-                                        'year': {
-                                            'display': 'Year',
-                                            'list': years
-                                        },
-                                        'month': {
-                                            'display': 'Month',
-                                            'list': months
-                                        }
-                                    }
+                        'value': 'SA',
+                        'description': ''
 
                     },
                     'std_seasonal':{
                         'display': 'STD Seasonal',
-                        'description': '',
-                        'options': {
-                                        'year': {
-                                            'display': 'Year',
-                                            'list': years
-                                        },
-                                        'season': {
-                                            'display': 'Season',
-                                            'list': seasons
-                                        }
-                                    }
+                        'value': 'SA',
+                        'description': ''
 
                     },
                     'abs_monthly':{
                         'display': 'ABS Monthly',
-                        'description': '',
-                        'options': {
-                                        'year': {
-                                            'display': 'Year',
-                                            'list': years
-                                        },
-                                        'month': {
-                                            'display': 'Month',
-                                            'list': months
-                                        }
-                                    }
+                        'value': 'AA',
+                        'description': ''
 
                     },
                     'abs_seasonal':{
                         'display': 'ABS Seasonal',
-                        'description': '',
-                        'options': {
-                                        'year': {
-                                            'display': 'Year',
-                                            'list': years
-                                        },
-                                        'season': {
-                                            'display': 'Season',
-                                            'list': seasons
-                                        }
-                                    }
+                        'value': 'SA',
+                        'description': ''
 
                     }
         }
@@ -157,31 +87,13 @@ DATASETS = {
         'products':{
             'vci_monthly':{
                         'display': 'VCI Monthly',
-                        'description': '',
-                        'options': {
-                                        'year': {
-                                            'display': 'Year',
-                                            'list': years
-                                        },
-                                        'month': {
-                                            'display': 'Month',
-                                            'list': months
-                                        }
-                                    }
+                        'value': 'VCI',
+                        'description': ''
                     },
                     'vci_seasonal':{
                         'display': 'VCI Seasonal',
-                        'description': '',
-                        'options': {
-                                        'year': {
-                                            'display': 'Year',
-                                            'list': years
-                                        },
-                                        'season': {
-                                            'display': 'Season',
-                                            'list': seasons
-                                        }
-                                    }
+                        'value': 'VCI',
+                        'description': ''
 
                     }
         }
